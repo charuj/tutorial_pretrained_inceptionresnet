@@ -149,8 +149,8 @@ def load_batch(dataset, batch_size=batch_size, height=image_size, width=image_si
     # First create the data_provider object
     data_provider = slim.dataset_data_provider.DatasetDataProvider(
         dataset,
-        common_queue_capacity=24 + 3 * batch_size,
-        common_queue_min=24)
+        common_queue_capacity=32,
+        common_queue_min=8)
 
     # Obtain the raw image using the get method
     raw_image, label = data_provider.get(['image', 'label'])
