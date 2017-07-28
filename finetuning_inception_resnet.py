@@ -219,10 +219,23 @@ def run():
         tf.summary.scalar('losses/Total_Loss', total_loss)
         tf.summary.scalar('accuracy', accuracy)
 
-        # Run the training:
+
+        #Now we will restore the variables from the checkpoint file
+        init_fn = slim.assign_from_checkpoint_fn(checkpoint_file, slim.get_variables_to_restore())
+
+
+        # Run the training inside a session:
+
+        '''
+        the slim.learning.train function does the following:
+For each iteration, evaluate the train_op, which updates the parameters using the optimizer applied to the current minibatch. Also, update the global_step.
+Occasionally store the model checkpoint in the specified directory. This is useful in case your machine crashes - then you can simply restart from the specified checkpoint.
+        '''
+
         final_loss = slim.learning.train(
             train_op,
             logdir=log_dir,
+            init_fn=init_fn,
             number_of_steps=num_epochs)
 
 
